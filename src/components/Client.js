@@ -25,7 +25,7 @@ export default class Client extends Component {
                     <TableCell>{fullName[1]}</TableCell>
                     <TableCell>{client.country}</TableCell>
                     <TableCell>{this.formatDate(date)}</TableCell>
-                    <TableCell>{client.email}</TableCell>
+                    <TableCell>{client.emailType}</TableCell>
                     <TableCell> 
                     {
                         client.sold ?

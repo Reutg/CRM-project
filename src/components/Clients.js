@@ -9,7 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
-import { Tooltip } from '@material-ui/core';
 import Client from './Client.js';
 import TablePagination from '@material-ui/core/TablePagination';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -17,6 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableFooter from '@material-ui/core/TableFooter';
+import FilterClients from './FilterClients.js';
 
 
 const actionsStyles = theme => ({
@@ -127,8 +127,10 @@ class Clients extends React.Component {
         super()
         this.state = {
             data: require('../data.json'),
+            searchInput: "",
             page: 0,
             rowsPerPage: 20,
+            selection: ""
         }
     }
 
@@ -140,12 +142,24 @@ class Clients extends React.Component {
         this.setState({ page: 0, rowsPerPage: event.target.value });
       };
 
+      handleSearch = (event) => {
+        let searchValue = event.target.value
+        let inputName = event.target.name
+        this.setState({ [inputName]: searchValue })
+      }
+
+      handleSelection = (selection) => {
+        this.setState({ selection })
+      }
+
     render() {
         const { classes, count, theme } = this.props;
-        const { page, rowsPerPage } = this.state;
+        const { page, rowsPerPage, selection } = this.state;
 
+        // const filterOptions = Object.keys(this.state.data)
         return (
             <div style={{ padding: 10 }}>
+            <FilterClients filterOptions={Object.keys(this.state.data)} handleSelection={this.handleSelection} selection={this.state.selection} searchInput={this.state.searchInput} handleSearch={this.handleSearch} />
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
@@ -161,7 +175,9 @@ class Clients extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(c => <Client client={c} />)}
+                            {this.state.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .filter(client => !selection || client[selection].toLowerCase().includes(this.state.searchInput))
+                                .map(c => <Client client={c} />)}
                         </TableBody>
                         <TableFooter>
                             <TableRow>
