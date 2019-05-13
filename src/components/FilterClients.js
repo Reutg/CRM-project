@@ -20,6 +20,11 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
         width: 200,
     },
+    input: {
+        margin: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 2,
+        borderBottomColor: '#F7CE3E'
+    },
     dense: {
         marginTop: 19,
     },
@@ -28,7 +33,7 @@ const styles = theme => ({
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
-        width: '100px'
+        width: '200px'
     },
 });
 
@@ -44,7 +49,7 @@ class TextFields extends React.Component {
 
     handleSearch = (event) => {
         this.props.handleSearch(event)
-      }
+    }
 
     render() {
         const { classes } = this.props;
@@ -61,12 +66,13 @@ class TextFields extends React.Component {
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
-                <TextField
+         
+                <Input
+                    className={classes.input}
                     name="searchInput"
-                    className={classes.textField}
                     value={this.props.searchInput}
+                    inputlabel="Search"
                     onChange={this.handleSearch}
-                    margin="normal"
                 />
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="select-multiple">Search by</InputLabel>
@@ -75,7 +81,6 @@ class TextFields extends React.Component {
                         onChange={this.handleSelection}
                         className={classes.selectEmpty}
                         input={<Input id="select-multiple" />}
-                        MenuProps={MenuProps}
                     >
                         <MenuItem value='name'>Name</MenuItem>
                         <MenuItem value='firstContact'>First Contact</MenuItem>

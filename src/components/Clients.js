@@ -17,6 +17,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableFooter from '@material-ui/core/TableFooter';
 import FilterClients from './FilterClients.js';
+const axios = require('axios')
 
 
 const actionsStyles = theme => ({
@@ -126,20 +127,33 @@ class Clients extends React.Component {
     constructor() {
         super()
         this.state = {
-            data: require('../data.json'),
+            data: [],
             searchInput: "",
             page: 0,
             rowsPerPage: 20,
-            selection: ""
+            selection: "",
+      
         }
     }
 
+    componentDidMount = async () => {
+        let clients = await axios.get('http://localhost:4000/clients')
+        this.setState({ data: clients.data })
+      }
+    
+    handleInput = (event) => {
+        let inputValue = event.target.value
+        let inputName = event.target.name
+    
+        this.setState({ [inputName]: inputValue })
+    }
+
     handleChangePage = (event, page) => {
-        this.setState({ page });
+        this.setState({ page })
       };
 
       handleChangeRowsPerPage = event => {
-        this.setState({ page: 0, rowsPerPage: event.target.value });
+        this.setState({ page: 0, rowsPerPage: event.target.value })
       };
 
       handleSearch = (event) => {
@@ -151,6 +165,10 @@ class Clients extends React.Component {
       handleSelection = (selection) => {
         this.setState({ selection })
       }
+
+    //   updateClient = (name, surname, country) => {
+
+    //   }
 
     render() {
         const { classes, count, theme } = this.props;
@@ -177,7 +195,10 @@ class Clients extends React.Component {
                         <TableBody>
                             {this.state.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .filter(client => !selection || client[selection].toLowerCase().includes(this.state.searchInput))
-                                .map(c => <Client client={c} />)}
+                                .map(c => <Client 
+                                            key={c._id}
+                                            client={c}
+                                        />)}
                         </TableBody>
                         <TableFooter>
                             <TableRow>
