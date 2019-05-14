@@ -28,7 +28,6 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
               <div className="App">
         <NavBar />
-        <Clients />
         
         <Route exact path="/clients" render={({ match }) => <Clients match={match} />} />
         <Route exact path="/actions" render={({ match }) => <Actions match={match} />} />

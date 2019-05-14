@@ -40,13 +40,12 @@ const styles = theme => ({
 class TextFields extends React.Component {
     state = {
         name: 'Search',
-        selection: ""
     };
 
     handleSelection = (event) => {
-        this.props.handleSelection(event.target.value)
-    };
-
+        this.props.handleSelection(event)
+      }
+    
     handleSearch = (event) => {
         this.props.handleSearch(event)
     }
@@ -83,7 +82,6 @@ class TextFields extends React.Component {
                         input={<Input id="select-multiple" />}
                     >
                         <MenuItem value='name'>Name</MenuItem>
-                        <MenuItem value='firstContact'>First Contact</MenuItem>
                         <MenuItem value='owner'>Owner</MenuItem>
                         <MenuItem value='country'>Country</MenuItem>
                     </Select>

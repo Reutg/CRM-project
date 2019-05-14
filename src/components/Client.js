@@ -39,22 +39,34 @@ class Client extends Component {
         super()
         this.state = {
             isDialogOpened: false,
-            nameInput: "",
-            surnameInput: "",
-            countryInput: ""  
+            nameInput: null,
+            surnameInput: null,
+            countryInput: null  
         }
     }
 
+    componentDidMount = () => {
+        const {name , country} = this.props.client
+        const fullName = name.split(' ')
+        
+        this.setState({nameInput: fullName[0] , surnameInput: fullName[1], countryInput: country })
+    }
+
     formatDate = function (date) {
-        return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+        return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
     }
 
     openUpdateClient = () => {
         this.setState({ isDialogOpened: true })
     }
 
+    updateClient = () => {
+        this.setState({ isDialogOpened: false })
+        this.props.updateClient(this.props.client._id , this.state.nameInput, this.state.surnameInput, this.state.countryInput)
+    }
+
     handleClose = () => {
-        this.setState({ isDialogOpened: false });
+        this.setState({ isDialogOpened: false })
     }
 
     handleInput = (event) => {
@@ -103,7 +115,6 @@ class Client extends Component {
               value={this.state.nameInput}
               name="nameInput"
               onChange={this.handleInput}
-              autoFocus
               margin="dense"
               id="name"
               label="First Name"
@@ -116,7 +127,6 @@ class Client extends Component {
               value={this.state.surnameInput}
               name="surnameInput"
               onChange={this.handleInput}
-              autoFocus
               margin="dense"
               id="surname"
               label="Surname"
@@ -126,10 +136,9 @@ class Client extends Component {
             />
 
             <TextField
-              value={this.state.countryInput}
+              value={this.state.countryInput} 
               name="countryInput"
               onChange={this.handleInput}
-              autoFocus
               margin="dense"
               id="country"
               label="Country"
@@ -140,8 +149,11 @@ class Client extends Component {
 
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} variant="contained" color="primary" className={classes.button}>
+            <Button onClick={this.updateClient} size="large" variant="contained" color="primary" className={classes.button}>
               Update
+            </Button>
+            <Button onClick={this.handleClose} size="large" variant="contained" color="primary" className={classes.button}>
+              Cancel
             </Button>
             
           </DialogActions>

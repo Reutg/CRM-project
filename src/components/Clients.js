@@ -132,7 +132,6 @@ class Clients extends React.Component {
             page: 0,
             rowsPerPage: 20,
             selection: "",
-      
         }
     }
 
@@ -140,11 +139,26 @@ class Clients extends React.Component {
         let clients = await axios.get('http://localhost:4000/clients')
         this.setState({ data: clients.data })
       }
+      
+    updateClient = async (id, name, surname, country) => {
+        let updatedClient = await axios.put(`http://localhost:4000/clients/${id}`, { name, surname, country })
+        
+        let clients = [...this.state.data]
+        const clientIndex = clients.findIndex(client => client._id === id)
+        clients[clientIndex] = updatedClient.data
+
+        this.setState({data: clients})
+    }
     
+    
+
     handleInput = (event) => {
         let inputValue = event.target.value
         let inputName = event.target.name
-    
+        
+        let data = [...this.state.data]
+        data.find()
+        
         this.setState({ [inputName]: inputValue })
     }
 
@@ -162,22 +176,25 @@ class Clients extends React.Component {
         this.setState({ [inputName]: searchValue })
       }
 
-      handleSelection = (selection) => {
+      handleSelection = (event) => {
+          let selection = event.target.value
         this.setState({ selection })
       }
 
-    //   updateClient = (name, surname, country) => {
-
-    //   }
 
     render() {
         const { classes, count, theme } = this.props;
         const { page, rowsPerPage, selection } = this.state;
 
-        // const filterOptions = Object.keys(this.state.data)
         return (
             <div style={{ padding: 10 }}>
-            <FilterClients filterOptions={Object.keys(this.state.data)} handleSelection={this.handleSelection} selection={this.state.selection} searchInput={this.state.searchInput} handleSearch={this.handleSearch} />
+            <FilterClients
+                filterOptions={Object.keys(this.state.data)} 
+                handleSelection={this.handleSelection}
+                selection={this.state.selection}
+                searchInput={this.state.searchInput}
+                handleSearch={this.handleSearch} />
+
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
@@ -193,11 +210,13 @@ class Clients extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .filter(client => !selection || client[selection].toLowerCase().includes(this.state.searchInput))
+                            {this.state.data
+                                .filter(client => !selection || (client[selection] || "").toLowerCase().includes(this.state.searchInput))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(c => <Client 
                                             key={c._id}
                                             client={c}
+                                            updateClient={this.updateClient}
                                         />)}
                         </TableBody>
                         <TableFooter>
