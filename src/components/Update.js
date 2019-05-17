@@ -87,11 +87,12 @@ class Update extends Component {
 
                         <Typography component="h5">
                             Client:
-                     <ClientInput clients={this.props.state.data} nameInput={this.props.state.nameInput} handleInput={this.handleInput} />
                         </Typography>
+                     <ClientInput clients={this.props.state.data} nameInput={this.props.state.nameInput} handleInput={this.handleInput} />
 
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                             Transfer ownership to
+                        </Typography>
                         <Select
                                 value={this.props.state.ownerSelection}
                                 name= "ownerSelection"
@@ -107,10 +108,10 @@ class Update extends Component {
                             <Button color="secondary" className={classes.button} onClick={this.updateClientOwner} >
                                 transfer
                             </Button>
-                        </Typography>
 
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                             Send Email:
+                        </Typography>
                         <Select
                                 value={this.props.state.emailTypeSelection}
                                 name="emailTypeSelection"
@@ -127,7 +128,6 @@ class Update extends Component {
                             <Button color="secondary" className={classes.button} onClick={this.updateEmailType}>
                                 send
                             </Button>
-                        </Typography>
 
                         <Typography component="h5">
                             Declare sale!

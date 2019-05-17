@@ -7,6 +7,7 @@ import amber from '@material-ui/core/colors/amber';
 import NavBar from './components/NavBar';
 import Clients from './components/Clients';
 import Actions from './components/Actions';
+import Analytics from './components/analytics/Analytics';
 
 
 
@@ -31,6 +32,7 @@ class App extends Component {
         
         <Route exact path="/clients" render={({ match }) => <Clients match={match} />} />
         <Route exact path="/actions" render={({ match }) => <Actions match={match} />} />
+        <Route exact path="/analytics" render={({ match }) => <Analytics match={match} />} />
 
       </div>
       </MuiThemeProvider>

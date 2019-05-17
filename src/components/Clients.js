@@ -99,7 +99,7 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
     TablePaginationActions,
 );
 
-/////
+/////////////////////////////////////////////////////////////
 
 const CustomTableCell = withStyles(theme => ({
     head: {
