@@ -120,8 +120,6 @@ class Badges extends Component {
   render() {
 
     const { classes } = this.props;
-    console.log(this.state.data[0])
-    console.log(this.state.badges)
     return (
       <div className={classes.root} >
         {this.state.badges.map(badge =>

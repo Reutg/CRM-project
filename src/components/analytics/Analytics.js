@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
 
 import Badges from './Badges';
-import TopEmployee from './TopEmployee';
+import Charts from './Charts';
 const axios = require('axios')
 
 
@@ -32,7 +32,7 @@ class Analytics extends Component {
     return (
       <div>
               <Badges />
-          <TopEmployee clients={this.state.data} />
+          <Charts data={this.state.data} />
        </div>
     )
   }
